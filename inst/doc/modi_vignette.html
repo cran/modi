@@ -1,65 +1,357 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <meta name="author" content="Beat Hulliger, Martin Sterchi" />
 
-<meta name="date" content="2018-11-14" />
+<meta name="date" content="2023-03-03" />
 
 <title>Introduction to modi</title>
 
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
 
-
-<style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
 </style>
 
 
 
-<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">
+
+div.csl-bib-body { }
+div.csl-entry {
+clear: both;
+}
+.hanging div.csl-entry {
+margin-left:2em;
+text-indent:-2em;
+}
+div.csl-left-margin {
+min-width:2em;
+float:left;
+}
+div.csl-right-inline {
+margin-left:2em;
+padding-left:1em;
+}
+div.csl-indent {
+margin-left: 2em;
+}
+</style>
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
 
 </head>
 
@@ -69,54 +361,112 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 <h1 class="title toc-ignore">Introduction to modi</h1>
-<h4 class="author"><em>Beat Hulliger, Martin Sterchi</em></h4>
-<h4 class="date"><em>2018-11-14</em></h4>
+<h4 class="author">Beat Hulliger, Martin Sterchi</h4>
+<h4 class="date">2023-03-03</h4>
 
 
 
-<p>A first version of this vignette has been published in the Austrian Journal of Statistics <span class="citation">(Bill and Hulliger 2016)</span>.</p>
+<p>A first version of this vignette has been published in the Austrian
+Journal of Statistics <span class="citation">(Bill and Hulliger
+2016)</span>.</p>
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
-<p>The distribution of multivariate quantitative survey data usually is not normal. Skewed and semi-continuous distributions occur often. In addition, missing values and non-response is common. All together this mix of problems makes multivariate outlier detection difficult. Examples of surveys where these problems occur are most business surveys and some household surveys like the Survey for the Statistics of Income and Living Condition (SILC) of the European Union. Several methods for multivariate outlier detection are collected in the R package <strong>modi</strong>. This vignette gives an overview of the package modi and its functions for outlier detection and corresponding imputation. The use of the methods is explained with a business survey data set. The discussion covers pre- and post-processing to deal with skewness and zero-inflation, advantages and disadvantages of the methods and the choice of the parameters.</p>
+<p>The distribution of multivariate quantitative survey data usually is
+not normal. Skewed and semi-continuous distributions occur often. In
+addition, missing values and non-response is common. All together this
+mix of problems makes multivariate outlier detection difficult. Examples
+of surveys where these problems occur are most business surveys and some
+household surveys like the Survey for the Statistics of Income and
+Living Condition (SILC) of the European Union. Several methods for
+multivariate outlier detection are collected in the R package
+<strong>modi</strong>. This vignette gives an overview of the package
+modi and its functions for outlier detection and corresponding
+imputation. The use of the methods is explained with a business survey
+data set. The discussion covers pre- and post-processing to deal with
+skewness and zero-inflation, advantages and disadvantages of the methods
+and the choice of the parameters.</p>
 </div>
 <div id="overview" class="section level2">
 <h2>Overview</h2>
-<p>The following outlier detection and imputation functions are provided in <strong>modi</strong>:</p>
+<p>The following outlier detection and imputation functions are provided
+in <strong>modi</strong>:</p>
 <ul>
-<li><code>BEM()</code> is an implementation of the BACON-EEM algorithm to detect outliers under the assumption of a multivariate normal distribution.</li>
-<li><code>TRC()</code> is an implementation of the transformed rank correlation (TRC) algorithm to detect outliers.</li>
-<li><code>EAdet()</code> is an outlier detection method based on the epidemic algorithm (EA).</li>
-<li><code>EAimp()</code> is an imputation method based on the epidemic algorithm (EA).</li>
-<li><code>GIMCD()</code> is an outlier detection method based on non-robust Gaussian imputation (GI) and the highly robust minimum covariance determinant (MCD) algorithm.</li>
-<li><code>POEM()</code> is a nearest neighbor imputation method for outliers and missing values.</li>
-<li><code>winsimp()</code> is an imputation method for outliers and missing values based on winsorization and Gaussian imputation.</li>
-<li><code>ER()</code> is a robust multivariate outlier detection algorithm that can cope with missing values.</li>
+<li><code>BEM()</code> is an implementation of the BACON-EEM algorithm
+to detect outliers under the assumption of a multivariate normal
+distribution.</li>
+<li><code>TRC()</code> is an implementation of the transformed rank
+correlation (TRC) algorithm to detect outliers.</li>
+<li><code>EAdet()</code> is an outlier detection method based on the
+epidemic algorithm (EA).</li>
+<li><code>EAimp()</code> is an imputation method based on the epidemic
+algorithm (EA).</li>
+<li><code>GIMCD()</code> is an outlier detection method based on
+non-robust Gaussian imputation (GI) and the highly robust minimum
+covariance determinant (MCD) algorithm.</li>
+<li><code>POEM()</code> is a nearest neighbor imputation method for
+outliers and missing values.</li>
+<li><code>winsimp()</code> is an imputation method for outliers and
+missing values based on winsorization and Gaussian imputation.</li>
+<li><code>ER()</code> is a robust multivariate outlier detection
+algorithm that can cope with missing values.</li>
 </ul>
-<p>Furthermore, <strong>modi</strong> provides a set of utility functions:</p>
+<p>Furthermore, <strong>modi</strong> provides a set of utility
+functions:</p>
 <ul>
-<li><code>plotMD()</code> is a function to plot the Mahalanobis distances.</li>
-<li><code>MDmiss()</code> is a function to calculate Mahalanobis distances when missing values occur.</li>
-<li><code>weighted.quantile()</code> is a function to calculate weighted quantiles.</li>
-<li><code>weighted.var()</code> is a function to calculate weighted variances analogous to the <code>weighted.mean()</code> function in the stats package.</li>
+<li><code>plotMD()</code> is a function to plot the Mahalanobis
+distances.</li>
+<li><code>MDmiss()</code> is a function to calculate Mahalanobis
+distances when missing values occur.</li>
+<li><code>weighted.quantile()</code> is a function to calculate weighted
+quantiles.</li>
+<li><code>weighted.var()</code> is a function to calculate weighted
+variances analogous to the <code>weighted.mean()</code> function in the
+stats package.</li>
 </ul>
 </div>
 <div id="data" class="section level2">
 <h2>Data</h2>
-<p>The <strong>modi</strong> package contains two datasets, first a version of the well known Bushfire dataset containing missing values (<code>bushfirem</code>), and second the <code>sepe</code> dataset which is an anonymized sample of a pilot survey on environment protection expenditures of the Swiss private economy (Federal Statistical Office). In this vignette, we will use the <code>sepe</code> dataset.</p>
-<p>The units in the <code>sepe</code> dataset are enterprises and all monetary variables are in thousand Swiss Francs. The dataset contains 675 observations on 23 variables. However, we will only use the following variables:</p>
+<p>The <strong>modi</strong> package contains two datasets, first a
+version of the well known Bushfire dataset containing missing values
+(<code>bushfirem</code>), and second the <code>sepe</code> dataset which
+is an anonymized sample of a pilot survey on environment protection
+expenditures of the Swiss private economy (Federal Statistical Office).
+In this vignette, we will use the <code>sepe</code> dataset.</p>
+<p>The units in the <code>sepe</code> dataset are enterprises and all
+monetary variables are in thousand Swiss Francs. The dataset contains
+675 observations on 23 variables. However, we will only use the
+following variables:</p>
 <ul>
 <li><code>idnr</code>: ID of the observation</li>
 <li><code>weight</code>: sampling weight</li>
-<li><code>totinvwp</code>: total investment in water protection measures</li>
-<li><code>totinvwm</code>: total investment in waste management measures</li>
-<li><code>totinvap</code>: total investment in air protection measures</li>
+<li><code>totinvwp</code>: total investment in water protection
+measures</li>
+<li><code>totinvwm</code>: total investment in waste management
+measures</li>
+<li><code>totinvap</code>: total investment in air protection
+measures</li>
 <li><code>totinvto</code>: overall total investment</li>
-<li><code>totexpwp</code>: total expenditure in water protection measures</li>
-<li><code>totexpwm</code>: total expenditure in waste management measures</li>
-<li><code>totexpap</code>: total expenditure in air protection measures</li>
+<li><code>totexpwp</code>: total expenditure in water protection
+measures</li>
+<li><code>totexpwm</code>: total expenditure in waste management
+measures</li>
+<li><code>totexpap</code>: total expenditure in air protection
+measures</li>
 <li><code>totexpto</code>: overall total expenditure</li>
 </ul>
-<table>
+<table style="width:100%;">
+<colgroup>
+<col width="5%" />
+<col width="8%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th align="right">idnr</th>
@@ -254,248 +604,414 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </tr>
 </tbody>
 </table>
-<p>The overall total investement and expenditure have been collected in the survey as well. Therefore, they do not always correspond to the sum over the individual investments and expenditures. The dataset contains 677 items with missing values and 2’595 items with a value of zero. Since some of the functions in this package relie on the assumption of a multivariate normal distribution, the zeros are declared as missing values.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># attach data</span>
-<span class="kw">data</span>(<span class="st">&quot;sepe&quot;</span>)
-
-<span class="co"># recode 0s as NA</span>
-sepenozero &lt;-<span class="st"> </span>sepe
-sepenozero[sepenozero <span class="op">==</span><span class="st"> </span><span class="dv">0</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></code></pre></div>
-<p>The resulting data is highly asymmetric and we thus apply the following logarithmic transformation <code>log(x + 1)</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># relevant variables</span>
-sepevar8 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;totinvwp&quot;</span>,<span class="st">&quot;totinvwm&quot;</span>,<span class="st">&quot;totinvap&quot;</span>,<span class="st">&quot;totinvto&quot;</span>,
-              <span class="st">&quot;totexpwp&quot;</span>,<span class="st">&quot;totexpwm&quot;</span>,<span class="st">&quot;totexpap&quot;</span>,<span class="st">&quot;totexpto&quot;</span>)
-
-<span class="co"># log(x + 1) transformation</span>
-sepe_transformed &lt;-<span class="st"> </span><span class="kw">log</span>(sepenozero[ ,sepevar8] <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)
-
-<span class="co"># show the first 5 observations</span>
-<span class="kw">head</span>(sepe_transformed)
-<span class="co">#&gt;   totinvwp totinvwm totinvap totinvto totexpwp totexpwm totexpap totexpto</span>
-<span class="co">#&gt; 1       NA       NA       NA       NA 3.713572       NA       NA 4.110874</span>
-<span class="co">#&gt; 2       NA       NA       NA       NA       NA       NA       NA       NA</span>
-<span class="co">#&gt; 3       NA       NA       NA       NA 5.472271 2.944439 2.397895 5.583496</span>
-<span class="co">#&gt; 4       NA       NA       NA       NA       NA       NA       NA       NA</span>
-<span class="co">#&gt; 5 5.043425       NA       NA 5.043425 2.197225 3.332205       NA 3.583519</span>
-<span class="co">#&gt; 6 1.098612 1.386294 3.713572 3.828641 3.583519 2.484907       NA 3.850148</span></code></pre></div>
+<p>The overall total investement and expenditure have been collected in
+the survey as well. Therefore, they do not always correspond to the sum
+over the individual investments and expenditures. The dataset contains
+677 items with missing values and 2’595 items with a value of zero.
+Since some of the functions in this package relie on the assumption of a
+multivariate normal distribution, the zeros are declared as missing
+values.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># attach data</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;sepe&quot;</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># recode 0s as NA</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>sepenozero <span class="ot">&lt;-</span> sepe</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>sepenozero[sepenozero <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span></code></pre></div>
+<p>The resulting data is highly asymmetric and we thus apply the
+following logarithmic transformation <code>log(x + 1)</code>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># relevant variables</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>sepevar8 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;totinvwp&quot;</span>,<span class="st">&quot;totinvwm&quot;</span>,<span class="st">&quot;totinvap&quot;</span>,<span class="st">&quot;totinvto&quot;</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>              <span class="st">&quot;totexpwp&quot;</span>,<span class="st">&quot;totexpwm&quot;</span>,<span class="st">&quot;totexpap&quot;</span>,<span class="st">&quot;totexpto&quot;</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># log(x + 1) transformation</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>sepe_transformed <span class="ot">&lt;-</span> <span class="fu">log</span>(sepenozero[ ,sepevar8] <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># show the first 5 observations</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sepe_transformed)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   totinvwp totinvwm totinvap totinvto totexpwp totexpwm totexpap totexpto</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1       NA       NA       NA       NA 3.713572       NA       NA 4.110874</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2       NA       NA       NA       NA       NA       NA       NA       NA</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3       NA       NA       NA       NA 5.472271 2.944439 2.397895 5.583496</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4       NA       NA       NA       NA       NA       NA       NA       NA</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 5.043425       NA       NA 5.043425 2.197225 3.332205       NA 3.583519</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 1.098612 1.386294 3.713572 3.828641 3.583519 2.484907       NA 3.850148</span></span></code></pre></div>
 </div>
 <div id="how-to-apply-functions-in-the-modi-package" class="section level2">
 <h2>How to apply functions in the modi package</h2>
-<p>In the following sections, we introduce the different outlier detection and imputation functions in the <strong>modi</strong> package. All functions are illustrated with examples based on the <code>sepe</code> dataset.</p>
+<p>In the following sections, we introduce the different outlier
+detection and imputation functions in the <strong>modi</strong> package.
+All functions are illustrated with examples based on the
+<code>sepe</code> dataset.</p>
 <div id="bem-and-winsimp" class="section level3">
 <h3><code>BEM()</code> and <code>Winsimp()</code></h3>
-<p><code>BEM()</code> is an implementation of the BACON-EEM algorithm that was developed by <span class="citation">(Béguin and Hulliger 2008)</span>. The BACON-EEM algorithm starts with a small subset of good observations, that are not outliers. Then, the mean and the covariance matrix of this subset are estimated with the EM-algorithm. The estimates take the sample design into account. Then, <code>BEM()</code> computes the Mahalonobis distance (MD) for all data points. Observations that are below the cutpoint defined by a <span class="math inline">\(\chi^2\)</span>-quantile are the new good subset. The algorithm iterates until convergence. Important control parameters in <code>BEM()</code> are the size of the initial good subset as a multiple <code>c0</code> of the dimension of the data (number of columns) and the probability <code>alpha</code> to determine the quantile of the <span class="math inline">\(\chi^2\)</span>-distribution for the cutpoint.</p>
-<p>The default value for the initial good subset is <code>c0 = 3</code>. However, in our case this results in a too small initial subset with many missing values and hence, the covariance matrix used to calculate the Mahalanobis distances is singular. Therefore, we set <code>c0 = 5</code> which results in a size of the initial good subset of 40 observations.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># run the BEM() algorithm</span>
-res.bem &lt;-<span class="st"> </span><span class="kw">BEM</span>(sepe_transformed, sepe<span class="op">$</span>weight, <span class="dt">c0 =</span> <span class="dv">5</span>)
-<span class="co">#&gt; Warning: missing observations 2 4 11 12 41 57 60 65 67 68 70 90 103 105 106 107 108 109 110 114 118 125 129 132 135 136 144 166 178 181 182 188 193 208 209 210 214 215 216 218 219 223 237 238 244 245 256 259 260 261 267 268 269 270 272 274 276 277 278 279 281 301 304 312 313 316 321 323 327 332 334 337 339 346 348 350 351 354 357 374 375 392 395 397 401 403 409 410 411 412 417 437 439 450 451 466 467 469 471 473 474 479 492 493 494 496 499 500 505 509 510 518 523 525 526 528 529 530 538 545 546 547 549 550 551 552 553 554 556 558 559 564 569 571 572 574 575 604 605 618 619 628 629 630 632 637 638 644 646 648 655 656 657 659 661 662 665 666 removed from the data</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  BEM has detected 385 outlier(s) in 0.82 seconds. </span>
-<span class="co">#&gt; </span></code></pre></div>
-<p>We can immediately see that a lot (158 to be precise) of the observations have been removed by <code>BEM()</code> because they are completely missing. <code>BEM()</code> identifies 385 of the remaining 517 observations as outliers. This is obviously implausible and happens if the default value 0.01 for the parameter representing the cut-off quantile, <code>alpha</code>, is a bad choice. Therefore, it is generally a good idea to decrease <code>alpha</code>. A good rule of thumb is to divide the default value (0.01) by the number of observations (<code>alpha = 0.01 / nrow(data)</code>) if the number of observations is above 100.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># run the BEM() algorithm with different alpha</span>
-res.bem &lt;-<span class="st"> </span><span class="kw">BEM</span>(sepe_transformed, sepe<span class="op">$</span>weight, <span class="dt">c0 =</span> <span class="dv">5</span>, <span class="dt">alpha =</span> <span class="fl">0.01</span> <span class="op">/</span><span class="st"> </span><span class="kw">nrow</span>(sepe_transformed))
-<span class="co">#&gt; Warning: missing observations 2 4 11 12 41 57 60 65 67 68 70 90 103 105 106 107 108 109 110 114 118 125 129 132 135 136 144 166 178 181 182 188 193 208 209 210 214 215 216 218 219 223 237 238 244 245 256 259 260 261 267 268 269 270 272 274 276 277 278 279 281 301 304 312 313 316 321 323 327 332 334 337 339 346 348 350 351 354 357 374 375 392 395 397 401 403 409 410 411 412 417 437 439 450 451 466 467 469 471 473 474 479 492 493 494 496 499 500 505 509 510 518 523 525 526 528 529 530 538 545 546 547 549 550 551 552 553 554 556 558 559 564 569 571 572 574 575 604 605 618 619 628 629 630 632 637 638 644 646 648 655 656 657 659 661 662 665 666 removed from the data</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  BEM has detected 89 outlier(s) in 0.53 seconds. </span>
-<span class="co">#&gt; </span></code></pre></div>
-<p>Now, the algorithm returns 89 outliers. Clearly, this is a more plausible result than before. With the help of <code>PlotMD()</code>, we can create a QQ-plot of the Mahalanobis distances and the corresponding F-distribution. As can be seen below, the minimal (squared) MD of the outliers is 37.14. However, by visual inspection of the QQ-plot we can see that a higher cutpoint would fit the data better.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># QQ-plot of MD vs. F-distribution</span>
-<span class="kw">PlotMD</span>(res.bem<span class="op">$</span>dist, <span class="kw">ncol</span>(sepe_transformed), <span class="dt">alpha =</span> <span class="fl">0.95</span>)</code></pre></div>
+<p><code>BEM()</code> is an implementation of the BACON-EEM algorithm
+that was developed by <span class="citation">(Béguin and Hulliger
+2008)</span>. The BACON-EEM algorithm starts with a small subset of good
+observations, that are not outliers. Then, the mean and the covariance
+matrix of this subset are estimated with the EM-algorithm. The estimates
+take the sample design into account. Then, <code>BEM()</code> computes
+the Mahalonobis distance (MD) for all data points. Observations that are
+below the cutpoint defined by a <span class="math inline">\(\chi^2\)</span>-quantile are the new good subset.
+The algorithm iterates until convergence. Important control parameters
+in <code>BEM()</code> are the size of the initial good subset as a
+multiple <code>c0</code> of the dimension of the data (number of
+columns) and the probability <code>alpha</code> to determine the
+quantile of the <span class="math inline">\(\chi^2\)</span>-distribution
+for the cutpoint.</p>
+<p>The default value for the initial good subset is <code>c0 = 3</code>.
+However, in our case this results in a too small initial subset with
+many missing values and hence, the covariance matrix used to calculate
+the Mahalanobis distances is singular. Therefore, we set
+<code>c0 = 5</code> which results in a size of the initial good subset
+of 40 observations.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run the BEM() algorithm</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>res.bem <span class="ot">&lt;-</span> <span class="fu">BEM</span>(sepe_transformed, sepe<span class="sc">$</span>weight, <span class="at">c0 =</span> <span class="dv">5</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: missing observations 2 4 11 12 41 57 60 65 67 68 70 90 103 105 106 107 108 109 110 114 118 125 129 132 135 136 144 166 178 181 182 188 193 208 209 210 214 215 216 218 219 223 237 238 244 245 256 259 260 261 267 268 269 270 272 274 276 277 278 279 281 301 304 312 313 316 321 323 327 332 334 337 339 346 348 350 351 354 357 374 375 392 395 397 401 403 409 410 411 412 417 437 439 450 451 466 467 469 471 473 474 479 492 493 494 496 499 500 505 509 510 518 523 525 526 528 529 530 538 545 546 547 549 550 551 552 553 554 556 558 559 564 569 571 572 574 575 604 605 618 619 628 629 630 632 637 638 644 646 648 655 656 657 659 661 662 665 666 removed from the data</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; BEM has detected 385 outlier(s) in 0.81 seconds.</span></span></code></pre></div>
+<p>We can immediately see that a lot (158 to be precise) of the
+observations have been removed by <code>BEM()</code> because they are
+completely missing. <code>BEM()</code> identifies 385 of the remaining
+517 observations as outliers. This is obviously implausible and happens
+if the default value 0.01 for the parameter representing the cut-off
+quantile, <code>alpha</code>, is a bad choice. Therefore, it is
+generally a good idea to decrease <code>alpha</code>. A good rule of
+thumb is to divide the default value (0.01) by the number of
+observations (<code>alpha = 0.01 / nrow(data)</code>) if the number of
+observations is above 100.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run the BEM() algorithm with different alpha</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>res.bem <span class="ot">&lt;-</span> <span class="fu">BEM</span>(sepe_transformed, sepe<span class="sc">$</span>weight, <span class="at">c0 =</span> <span class="dv">5</span>, <span class="at">alpha =</span> <span class="fl">0.01</span> <span class="sc">/</span> <span class="fu">nrow</span>(sepe_transformed))</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: missing observations 2 4 11 12 41 57 60 65 67 68 70 90 103 105 106 107 108 109 110 114 118 125 129 132 135 136 144 166 178 181 182 188 193 208 209 210 214 215 216 218 219 223 237 238 244 245 256 259 260 261 267 268 269 270 272 274 276 277 278 279 281 301 304 312 313 316 321 323 327 332 334 337 339 346 348 350 351 354 357 374 375 392 395 397 401 403 409 410 411 412 417 437 439 450 451 466 467 469 471 473 474 479 492 493 494 496 499 500 505 509 510 518 523 525 526 528 529 530 538 545 546 547 549 550 551 552 553 554 556 558 559 564 569 571 572 574 575 604 605 618 619 628 629 630 632 637 638 644 646 648 655 656 657 659 661 662 665 666 removed from the data</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; BEM has detected 89 outlier(s) in 0.51 seconds.</span></span></code></pre></div>
+<p>Now, the algorithm returns 89 outliers. Clearly, this is a more
+plausible result than before. With the help of <code>PlotMD()</code>, we
+can create a QQ-plot of the Mahalanobis distances and the corresponding
+F-distribution. As can be seen below, the minimal (squared) MD of the
+outliers is 37.14. However, by visual inspection of the QQ-plot we can
+see that a higher cutpoint would fit the data better.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># QQ-plot of MD vs. F-distribution</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">PlotMD</span>(res.bem<span class="sc">$</span>dist, <span class="fu">ncol</span>(sepe_transformed), <span class="at">alpha =</span> <span class="fl">0.95</span>)</span></code></pre></div>
 <p><img src="data:image/png;base64,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" /><!-- --></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># find the cutpoint chosen by BEM()</span>
-<span class="kw">min</span>(res.bem<span class="op">$</span>dist[res.bem<span class="op">$</span>outind])
-<span class="co">#&gt; [1] 37.14862</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># find the cutpoint chosen by BEM()</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(res.bem<span class="sc">$</span>dist[res.bem<span class="sc">$</span>outind])</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 37.14862</span></span></code></pre></div>
 <p>There are two ways of finding a better cutpoint:</p>
 <ul>
-<li>Find the cutpoint by visually inspecting the distribution plot shown above. The cutpoint should be chosen such that it corresponds to the point where the distribution changes substantially. In our case, we could try the cutpoint 70 which results in 31 outliers.</li>
+<li>Find the cutpoint by visually inspecting the distribution plot shown
+above. The cutpoint should be chosen such that it corresponds to the
+point where the distribution changes substantially. In our case, we
+could try the cutpoint 70 which results in 31 outliers.</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># find outliers with cutpoint 70</span>
-outind &lt;-<span class="st"> </span><span class="kw">ifelse</span>(res.bem<span class="op">$</span>dist <span class="op">&gt;</span><span class="st"> </span><span class="dv">70</span>, <span class="ot">TRUE</span>, <span class="ot">FALSE</span>)
-
-<span class="co"># set NAs to FALSE</span>
-outind[<span class="kw">is.na</span>(outind)] &lt;-<span class="st"> </span><span class="ot">FALSE</span>
-
-<span class="co"># how many outliers are there?</span>
-<span class="kw">sum</span>(outind)
-<span class="co">#&gt; [1] 31</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># find outliers with cutpoint 70</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>outind <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(res.bem<span class="sc">$</span>dist <span class="sc">&gt;</span> <span class="dv">70</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># set NAs to FALSE</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>outind[<span class="fu">is.na</span>(outind)] <span class="ot">&lt;-</span> <span class="cn">FALSE</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># how many outliers are there?</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(outind)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 31</span></span></code></pre></div>
 <ul>
-<li>The second option is to declare a specific fraction of observations to be outliers. For example, if we assume that 5% (or 26) of the observations are outliers, the cutpoint for the (squared) Mahalanobis distances is 82.53.</li>
+<li>The second option is to declare a specific fraction of observations
+to be outliers. For example, if we assume that 5% (or 26) of the
+observations are outliers, the cutpoint for the (squared) Mahalanobis
+distances is 82.53.</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># find cutpoint with fixed number of outliers</span>
-<span class="kw">quantile</span>(res.bem<span class="op">$</span>dist, <span class="fl">0.95</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)
-<span class="co">#&gt;      95% </span>
-<span class="co">#&gt; 82.52671</span></code></pre></div>
-<p>The following plot shows total investment and total expenditure (log-transformed) for every observation. The 89 Outliers found by <code>BEM()</code> are depicted as red crosses whereas the 31 outliers found by choosing the cutpoint according to a visual inspection of the QQ-plot are depicted as blue rectangles. Note that we can only plot two variables (total investment and expenditure) and thus, some outliers contained in the bulk of data may not look like outliers.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># create transformed data including zeros</span>
-df &lt;-<span class="st"> </span><span class="kw">log</span>(sepe[, sepevar8] <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)
-
-<span class="co"># set up scatterplot totexpto vs. totinvto</span>
-<span class="kw">plot</span>(df<span class="op">$</span>totinvto, df<span class="op">$</span>totexpto, <span class="dt">type =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Total Inv.&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Total Exp.&quot;</span>)
-
-<span class="co"># plot comparison of outliers determined with visual cutpoint and default cutpoint</span>
-<span class="kw">points</span>(df<span class="op">$</span>totinvto[<span class="op">!</span>res.bem<span class="op">$</span>outind], df<span class="op">$</span>totexpto[<span class="op">!</span>res.bem<span class="op">$</span>outind])
-<span class="kw">points</span>(df<span class="op">$</span>totinvto[res.bem<span class="op">$</span>outind], df<span class="op">$</span>totexpto[res.bem<span class="op">$</span>outind], <span class="dt">pch =</span> <span class="dv">4</span>, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>)
-<span class="kw">points</span>(df<span class="op">$</span>totinvto[outind], df<span class="op">$</span>totexpto[outind], <span class="dt">pch =</span> <span class="dv">0</span>, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># find cutpoint with fixed number of outliers</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(res.bem<span class="sc">$</span>dist, <span class="fl">0.95</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      95% </span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 82.52671</span></span></code></pre></div>
+<p>The following plot shows total investment and total expenditure
+(log-transformed) for every observation. The 89 Outliers found by
+<code>BEM()</code> are depicted as red crosses whereas the 31 outliers
+found by choosing the cutpoint according to a visual inspection of the
+QQ-plot are depicted as blue rectangles. Note that we can only plot two
+variables (total investment and expenditure) and thus, some outliers
+contained in the bulk of data may not look like outliers.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create transformed data including zeros</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">log</span>(sepe[, sepevar8] <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># set up scatterplot totexpto vs. totinvto</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(df<span class="sc">$</span>totinvto, df<span class="sc">$</span>totexpto, <span class="at">type =</span> <span class="st">&quot;n&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Total Inv.&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Total Exp.&quot;</span>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># plot comparison of outliers determined with visual cutpoint and default cutpoint</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(df<span class="sc">$</span>totinvto[<span class="sc">!</span>res.bem<span class="sc">$</span>outind], df<span class="sc">$</span>totexpto[<span class="sc">!</span>res.bem<span class="sc">$</span>outind])</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(df<span class="sc">$</span>totinvto[res.bem<span class="sc">$</span>outind], df<span class="sc">$</span>totexpto[res.bem<span class="sc">$</span>outind], <span class="at">pch =</span> <span class="dv">4</span>, <span class="at">col =</span> <span class="st">&quot;red&quot;</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(df<span class="sc">$</span>totinvto[outind], df<span class="sc">$</span>totexpto[outind], <span class="at">pch =</span> <span class="dv">0</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span></code></pre></div>
 <p><img src="data:image/png;base64,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" /><!-- --></p>
-<p>After outliers have been detected, we can impute values. Here, we do this with <code>Winsimp()</code> which corresponds to a winsorisation (Wins) of outliers according to the Mahalanobis distance followed by an imputation (imp) under the multivariate normal model. We use the center and scatter calculated with <code>BEM()</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># apply Winsimp()</span>
-res.winsimp &lt;-<span class="st"> </span><span class="kw">Winsimp</span>(sepe_transformed, 
-                       res.bem<span class="op">$</span>output<span class="op">$</span>center, 
-                       res.bem<span class="op">$</span>output<span class="op">$</span>scatter, 
-                       outind)</code></pre></div>
-<p>Here, we re-insert the zeros after the imputation since the zeros did not contribute to the multivariate normal model used for detection. Of course, it would also be possible to re-insert zeros before the imputation which might result in somewhat more coherent imputations.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># get the imputed data</span>
-imp_data &lt;-<span class="st"> </span>res.winsimp<span class="op">$</span>imputed.data
-
-<span class="co"># indicate the zeros in original dataset</span>
-zeros &lt;-<span class="st"> </span><span class="kw">ifelse</span>(sepe[ ,sepevar8] <span class="op">==</span><span class="st"> </span><span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)
-
-<span class="co"># redefine NAs as 0</span>
-zeros[<span class="kw">is.na</span>(zeros)] &lt;-<span class="st"> </span><span class="dv">0</span>
-
-<span class="co"># re-insert zeros</span>
-imp_data &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">ifelse</span>(zeros <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="dv">0</span>, imp_data))</code></pre></div>
-<p>The following plot shows the outliers (log-transformed) with blue rectangles as well as the imputed values with green rectangles.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># create transformed data including zeros</span>
-df &lt;-<span class="st"> </span><span class="kw">log</span>(sepe[, sepevar8] <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)
-
-<span class="co"># set up scatterplot totexpto vs. totinvto</span>
-<span class="kw">plot</span>(df<span class="op">$</span>totinvto, df<span class="op">$</span>totexpto, <span class="dt">type =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;Total Inv.&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Total Exp.&quot;</span>)
-
-<span class="co"># plot comparison of outliers determined with visual cutpoint and default cutpoint</span>
-<span class="kw">points</span>(df<span class="op">$</span>totinvto[outind], df<span class="op">$</span>totexpto[outind], <span class="dt">pch =</span> <span class="dv">0</span>, <span class="dt">col =</span> <span class="st">&quot;blue&quot;</span>)
-<span class="kw">points</span>(imp_data<span class="op">$</span>totinvto[outind], imp_data<span class="op">$</span>totexpto[outind], <span class="dt">pch =</span> <span class="dv">0</span>, <span class="dt">col =</span> <span class="st">&quot;green&quot;</span>)</code></pre></div>
+<p>After outliers have been detected, we can impute values. Here, we do
+this with <code>Winsimp()</code> which corresponds to a winsorisation
+(Wins) of outliers according to the Mahalanobis distance followed by an
+imputation (imp) under the multivariate normal model. We use the center
+and scatter calculated with <code>BEM()</code>.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># apply Winsimp()</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>res.winsimp <span class="ot">&lt;-</span> <span class="fu">Winsimp</span>(sepe_transformed, </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                       res.bem<span class="sc">$</span>center, </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>                       res.bem<span class="sc">$</span>scatter, </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>                       outind)</span></code></pre></div>
+<p>Here, we re-insert the zeros after the imputation since the zeros did
+not contribute to the multivariate normal model used for detection. Of
+course, it would also be possible to re-insert zeros before the
+imputation which might result in somewhat more coherent imputations.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get the imputed data</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>imp_data <span class="ot">&lt;-</span> res.winsimp<span class="sc">$</span>imputed.data</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># indicate the zeros in original dataset</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>zeros <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(sepe[ ,sepevar8] <span class="sc">==</span> <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co"># redefine NAs as 0</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>zeros[<span class="fu">is.na</span>(zeros)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co"># re-insert zeros</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>imp_data <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">ifelse</span>(zeros <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">0</span>, imp_data))</span></code></pre></div>
+<p>The following plot shows the outliers (log-transformed) with blue
+rectangles as well as the imputed values with green rectangles.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create transformed data including zeros</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">log</span>(sepe[, sepevar8] <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># set up scatterplot totexpto vs. totinvto</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(df<span class="sc">$</span>totinvto, df<span class="sc">$</span>totexpto, <span class="at">type =</span> <span class="st">&quot;n&quot;</span>, <span class="at">xlab =</span> <span class="st">&quot;Total Inv.&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Total Exp.&quot;</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co"># plot comparison of outliers determined with visual cutpoint and default cutpoint</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(df<span class="sc">$</span>totinvto[outind], df<span class="sc">$</span>totexpto[outind], <span class="at">pch =</span> <span class="dv">0</span>, <span class="at">col =</span> <span class="st">&quot;blue&quot;</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(imp_data<span class="sc">$</span>totinvto[outind], imp_data<span class="sc">$</span>totexpto[outind], <span class="at">pch =</span> <span class="dv">0</span>, <span class="at">col =</span> <span class="st">&quot;green&quot;</span>)</span></code></pre></div>
 <p><img src="data:image/png;base64,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Wf7/5ZNA0Y9JoOebdm9ePm8Czb4FTIcZM1yDHm1eWYOiF6N90FOWu1VGoOjD7Ci+2sjv1wSKPjgPCmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmkECmlGge7XWen5I8p0E7Q4a/4jd9Tw2W5xI2DJrsPn3JvuJM5sP9gEus2W1Qf5+YNe003R4ma8+SP3PdRyi9OwaJyl0ffnBnzOvem8ITqTQPfr7yy3L5+9p5skAm3HJNDd6v38Ye5v5LNvAdNNEoG2wxo0EQJtx2of9LQKZR+0CYG2Y3QUv1tVG/KG9SeBEmhLnAdNhNNM7RAopBEopBEopBEopBEopBEopBEopCULFGglUaADL2OEM4/wKSfdLhLowDOP8CkT6JxmHuFTJtA5zTzCp0ygc5p5hE+ZQOc08wifMoHOaeYRPmUCndPMI3zKBDqnmUf4lCcfKNAZgUIagUIagUIagUIagUIagUIagUIagUIagUIagUIagUIagUKaeaB5lj39spi4vONIw3V0+9s0XgK1j6+3LHs1mLe4tnCWvT9+WLCv38trvZu9ig9ZB5of/165xd9tvz7OujV6uY8viEWg+XHS3criKW+LL7NBobtVeTMCs1fxMeNAq8vabwxek6+34uXYNt6xqZfdyiLQ6oth8ZT36+IrHP/LnFe3xLJ7FR8zDtQ0o8PB6p/19uUvg0C/frNaBxkFmmfL8nYu1q/iPdaBlq9JbvZX25jMfHzWFvug+fN/V0a7zVab+Oqls34V7zEOtFrDme2+NN5tpJdii2YR6LbYXlYru+isjmLKKo1fxbtGHWhuc4xU3ATKJNAnsxVRsSX5ejP41zr1QE03Djbrz+o5mwRafhmqHbq47HYSp76Jt9y93hqdBd2eLhAYvaPqFbY4VLJbxU39IMnwBMXW5MT0mcUatLrXqcWKqCrIYuZ84qeZ7E7xmuxxXZh8J6nYub264WlEtvugEz5RX24wTf5mpw2x1VfN5lududl3ZzdGM5/Wylav4mO8WQTSCBTSCBTSCBTSCBTSCBTSCBTSCBTSCBTSCBTSCBTSCBTSCBTSCBTSCBTSCBTSCBTSCBTSCBTSCBTSCBTSCBTSCBTSCBTSCBTSCBTSCBTSCDSC3ep0xcary8vl79d/Xv4i0eW3xo1AI7m57OepSe8XBNoBgUZCoDYINJJzoNUVFotbyhVXuq8u1HwJdLf653F34P10wVmCfYxAIzkFWtwLpriZXNlkcU3i4s4J14EW98d7+nd1XyOTa5BODIFGUgVaXT+5LPEY6h+/qqtzXwe6LH+ruN57+TEeINBIqkCrbffx/+d90DzL/ECrLX4xsoVvg0AjuQ70VGBx4ezn/7zVBVps/dnCt0GgkdSsQctf3G7iT4EWt0W0vEvJZBBoJDX7oNVd2mo38cf//pHktkOjQ6CR/DiKX55WntmyLtDDxupW9xNDoJH450GLAF8+y5u3bE5Z3gRa3pvY6M6yU0KgkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkEagkPZ/66E2Fs6Up6MAAAAASUVORK5CYII=" /><!-- --></p>
 </div>
 <div id="trc" class="section level3">
 <h3><code>TRC()</code></h3>
-<p><code>TRC()</code> is an implementation of the transformed rank correlation algorithm described in <span class="citation">(Béguin and Hulliger 2004)</span>. The algorithm uses an orthogonal transformation of the data into the space of eigenvectors. Then, the center and scatter are recalculated with robust univariate estimators (median and median absolute deviation). Since these transformations require a complete dataset, the algorithm provisionally imputes missing values based on the best simple robust regression. Important control parameters of <code>TRC()</code> are <code>gamma</code>, which defines the minimal proportion of observations needed to determine an imputation model, and <code>mincorr</code>, which is the minimal correlation required for a regressor to be part of the provisional imputation model.</p>
-<p>First, we create the original transformed dataset again, where all zeros are set to missing. This is useful as TRC relies on the assumption of multivariate normal data too.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># log(x + 1) transformation</span>
-sepe_transformed &lt;-<span class="st"> </span><span class="kw">log</span>(sepenozero[ ,sepevar8] <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</code></pre></div>
-<p>Using the default parameters results in <code>TRC()</code> finding 147 outliers. However, the default value <code>gamma = 0.5</code> seems to be too high because most regressors for the provisional imputation of missing values have a slope of 0 (check output by adding <code>monitor = TRUE</code>). Hence, we decrease the value of <code>gamma</code> to 30 observations.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># run the TRC() algorithm</span>
-res.trc &lt;-<span class="st"> </span><span class="kw">TRC</span>(sepe_transformed, sepe<span class="op">$</span>weight)
-<span class="co">#&gt; Warning: missing observations 2 4 11 12 41 57 60 65 67 68 70 90 103 105 106 107 108 109 110 114 118 125 129 132 135 136 144 166 178 181 182 188 193 208 209 210 214 215 216 218 219 223 237 238 244 245 256 259 260 261 267 268 269 270 272 274 276 277 278 279 281 301 304 312 313 316 321 323 327 332 334 337 339 346 348 350 351 354 357 374 375 392 395 397 401 403 409 410 411 412 417 437 439 450 451 466 467 469 471 473 474 479 492 493 494 496 499 500 505 509 510 518 523 525 526 528 529 530 538 545 546 547 549 550 551 552 553 554 556 558 559 564 569 571 572 574 575 604 605 618 619 628 629 630 632 637 638 644 646 648 655 656 657 659 661 662 665 666 removed from the data</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  Number of missing items:  2008 , percentage of missing items:  0.4854932  </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  TRC has detected 147 outlier(s) in 0.11 seconds.</span></code></pre></div>
-<p>Reducing <code>gamma</code> results in a better provisional imputation. However, the number of outliers stays almost the same (146 outliers).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># run the TRC() algorithm</span>
-res.trc &lt;-<span class="st"> </span><span class="kw">TRC</span>(sepe_transformed, sepe<span class="op">$</span>weight, <span class="dt">gamma =</span> <span class="dv">30</span> <span class="op">/</span><span class="st"> </span>res.trc<span class="op">$</span>output<span class="op">$</span>sample.size)
-<span class="co">#&gt; Warning: missing observations 2 4 11 12 41 57 60 65 67 68 70 90 103 105 106 107 108 109 110 114 118 125 129 132 135 136 144 166 178 181 182 188 193 208 209 210 214 215 216 218 219 223 237 238 244 245 256 259 260 261 267 268 269 270 272 274 276 277 278 279 281 301 304 312 313 316 321 323 327 332 334 337 339 346 348 350 351 354 357 374 375 392 395 397 401 403 409 410 411 412 417 437 439 450 451 466 467 469 471 473 474 479 492 493 494 496 499 500 505 509 510 518 523 525 526 528 529 530 538 545 546 547 549 550 551 552 553 554 556 558 559 564 569 571 572 574 575 604 605 618 619 628 629 630 632 637 638 644 646 648 655 656 657 659 661 662 665 666 removed from the data</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  Number of missing items:  2008 , percentage of missing items:  0.4854932  </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  TRC has detected 146 outlier(s) in 0.08 seconds.</span></code></pre></div>
-<p>The cutpoint chosen by <code>TRC()</code> is at 54.67. However, visual inspection of the QQ-plot below indicates that the cutpoint should be chosen at about 210.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># find the cutpoint chosen by TRC()</span>
-<span class="kw">min</span>(res.trc<span class="op">$</span>dist[res.trc<span class="op">$</span>outind])
-<span class="co">#&gt; [1] 54.66964</span></code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># QQ-plot of MD vs. F-distribution</span>
-<span class="kw">PlotMD</span>(res.trc<span class="op">$</span>dist, <span class="kw">ncol</span>(sepe_transformed))</code></pre></div>
+<p><code>TRC()</code> is an implementation of the transformed rank
+correlation algorithm described in <span class="citation">(Béguin and
+Hulliger 2004)</span>. The algorithm uses an orthogonal transformation
+of the data into the space of eigenvectors. Then, the center and scatter
+are recalculated with robust univariate estimators (median and median
+absolute deviation). Since these transformations require a complete
+dataset, the algorithm provisionally imputes missing values based on the
+best simple robust regression. Important control parameters of
+<code>TRC()</code> are <code>gamma</code>, which defines the minimal
+proportion of observations needed to determine an imputation model, and
+<code>mincorr</code>, which is the minimal correlation required for a
+regressor to be part of the provisional imputation model.</p>
+<p>First, we create the original transformed dataset again, where all
+zeros are set to missing. This is useful as TRC relies on the assumption
+of multivariate normal data too.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># log(x + 1) transformation</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>sepe_transformed <span class="ot">&lt;-</span> <span class="fu">log</span>(sepenozero[ ,sepevar8] <span class="sc">+</span> <span class="dv">1</span>)</span></code></pre></div>
+<p>Using the default parameters results in <code>TRC()</code> finding
+147 outliers. However, the default value <code>gamma = 0.5</code> seems
+to be too high because most regressors for the provisional imputation of
+missing values have a slope of 0 (check output by adding
+<code>monitor = TRUE</code>). Hence, we decrease the value of
+<code>gamma</code> to 30 observations.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run the TRC() algorithm</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>res.trc <span class="ot">&lt;-</span> <span class="fu">TRC</span>(sepe_transformed, sepe<span class="sc">$</span>weight)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: missing observations 2 4 11 12 41 57 60 65 67 68 70 90 103 105 106 107 108 109 110 114 118 125 129 132 135 136 144 166 178 181 182 188 193 208 209 210 214 215 216 218 219 223 237 238 244 245 256 259 260 261 267 268 269 270 272 274 276 277 278 279 281 301 304 312 313 316 321 323 327 332 334 337 339 346 348 350 351 354 357 374 375 392 395 397 401 403 409 410 411 412 417 437 439 450 451 466 467 469 471 473 474 479 492 493 494 496 499 500 505 509 510 518 523 525 526 528 529 530 538 545 546 547 549 550 551 552 553 554 556 558 559 564 569 571 572 574 575 604 605 618 619 628 629 630 632 637 638 644 646 648 655 656 657 659 661 662 665 666 removed from the data</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Number of missing items:  2008 , percentage of missing items:  0.4854932</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TRC has detected 147 outlier(s) in 0.1 seconds.</span></span></code></pre></div>
+<p>Reducing <code>gamma</code> results in a better provisional
+imputation. However, the number of outliers stays almost the same (146
+outliers).</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run the TRC() algorithm</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>res.trc <span class="ot">&lt;-</span> <span class="fu">TRC</span>(sepe_transformed, sepe<span class="sc">$</span>weight, <span class="at">gamma =</span> <span class="dv">30</span> <span class="sc">/</span> res.trc<span class="sc">$</span>sample.size)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: missing observations 2 4 11 12 41 57 60 65 67 68 70 90 103 105 106 107 108 109 110 114 118 125 129 132 135 136 144 166 178 181 182 188 193 208 209 210 214 215 216 218 219 223 237 238 244 245 256 259 260 261 267 268 269 270 272 274 276 277 278 279 281 301 304 312 313 316 321 323 327 332 334 337 339 346 348 350 351 354 357 374 375 392 395 397 401 403 409 410 411 412 417 437 439 450 451 466 467 469 471 473 474 479 492 493 494 496 499 500 505 509 510 518 523 525 526 528 529 530 538 545 546 547 549 550 551 552 553 554 556 558 559 564 569 571 572 574 575 604 605 618 619 628 629 630 632 637 638 644 646 648 655 656 657 659 661 662 665 666 removed from the data</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Number of missing items:  2008 , percentage of missing items:  0.4854932</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TRC has detected 146 outlier(s) in 0.06 seconds.</span></span></code></pre></div>
+<p>The cutpoint chosen by <code>TRC()</code> is at 54.67. However,
+visual inspection of the QQ-plot below indicates that the cutpoint
+should be chosen at about 210.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># find the cutpoint chosen by TRC()</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(res.trc<span class="sc">$</span>dist[res.trc<span class="sc">$</span>outind])</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 54.66964</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># QQ-plot of MD vs. F-distribution</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">PlotMD</span>(res.trc<span class="sc">$</span>dist, <span class="fu">ncol</span>(sepe_transformed))</span></code></pre></div>
 <p><img src="data:image/png;base64,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" /><!-- --></p>
 <p>Using 210 as the cutpoint results in 14 outliers.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># find outliers with cutpoint 70</span>
-outind &lt;-<span class="st"> </span><span class="kw">ifelse</span>(res.trc<span class="op">$</span>dist <span class="op">&gt;</span><span class="st"> </span><span class="dv">210</span>, <span class="ot">TRUE</span>, <span class="ot">FALSE</span>)
-
-<span class="co"># set NAs to FALSE</span>
-outind[<span class="kw">is.na</span>(outind)] &lt;-<span class="st"> </span><span class="ot">FALSE</span>
-
-<span class="co"># how many outliers are there?</span>
-<span class="kw">sum</span>(outind)
-<span class="co">#&gt; [1] 14</span></code></pre></div>
-<p>For the imputation of outliers, we can use <code>Winsimp()</code> as shown above in the section about <code>BEM()</code>.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># find outliers with cutpoint 70</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>outind <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(res.trc<span class="sc">$</span>dist <span class="sc">&gt;</span> <span class="dv">210</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># set NAs to FALSE</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>outind[<span class="fu">is.na</span>(outind)] <span class="ot">&lt;-</span> <span class="cn">FALSE</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co"># how many outliers are there?</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(outind)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 14</span></span></code></pre></div>
+<p>For the imputation of outliers, we can use <code>Winsimp()</code> as
+shown above in the section about <code>BEM()</code>.</p>
 </div>
 <div id="gimcd" class="section level3">
 <h3><code>GIMCD()</code></h3>
-<p><code>GIMCD()</code> is an implementation of a non-robust Gaussian imputation (GI), followed by a robust minimum covariance determinant (MCD) to detect outliers. Note that <code>GIMCD()</code>, in contrast to <code>BEM()</code> and <code>TRC()</code>, imputes values for completely missing observations. Unfortunately, the algorithm cannot take weights into account. The only control parameter of the function <code>GIMCD()</code> is <code>alpha</code> which determines the quantile for the cutpoint. Its default value is 0.05. The parameters <code>seedem</code> and <code>seedmcd</code> are seed values for random number generators used in the algorithm. We set them here so that our results are reproducible.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># run the GIMCD() algorithm</span>
-res.gimcd &lt;-<span class="st"> </span><span class="kw">GIMCD</span>(sepe_transformed, <span class="dt">seedem =</span> <span class="dv">234567819</span>, <span class="dt">seedmcd =</span> <span class="dv">4097</span>)
-<span class="co">#&gt; GIMCD has detected 57 outliers in 1.03 seconds.</span></code></pre></div>
-<p>The output above shows that <code>GIMCD()</code> finds 57 outliers. The default cutpoint is at 16.49.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># find the cutpoint chosen by GIMCD()</span>
-<span class="kw">min</span>(res.gimcd<span class="op">$</span>dist[res.gimcd<span class="op">$</span>outind])
-<span class="co">#&gt; [1] 16.49471</span></code></pre></div>
-<p>A visual inspection of the QQ-plot below shows that 24 might be a cutpoint that fits the data better.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># QQ-plot of MD vs. F-distribution</span>
-<span class="kw">PlotMD</span>(res.gimcd<span class="op">$</span>dist, <span class="kw">ncol</span>(sepe_transformed))</code></pre></div>
+<p><code>GIMCD()</code> is an implementation of a non-robust Gaussian
+imputation (GI), followed by a robust minimum covariance determinant
+(MCD) to detect outliers. Note that <code>GIMCD()</code>, in contrast to
+<code>BEM()</code> and <code>TRC()</code>, imputes values for completely
+missing observations. Unfortunately, the algorithm cannot take weights
+into account. The only control parameter of the function
+<code>GIMCD()</code> is <code>alpha</code> which determines the quantile
+for the cutpoint. Its default value is 0.05. The parameters
+<code>seedem</code> and <code>seedmcd</code> are seed values for random
+number generators used in the algorithm. We set them here so that our
+results are reproducible.</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run the GIMCD() algorithm</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>res.gimcd <span class="ot">&lt;-</span> <span class="fu">GIMCD</span>(sepe_transformed, <span class="at">seedem =</span> <span class="dv">234567819</span>, <span class="at">seedmcd =</span> <span class="dv">4097</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; GIMCD has detected 57 outliers in 0.88 seconds.</span></span></code></pre></div>
+<p>The output above shows that <code>GIMCD()</code> finds 57 outliers.
+The default cutpoint is at 16.49.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># find the cutpoint chosen by GIMCD()</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">min</span>(res.gimcd<span class="sc">$</span>dist[res.gimcd<span class="sc">$</span>outind])</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 16.49471</span></span></code></pre></div>
+<p>A visual inspection of the QQ-plot below shows that 24 might be a
+cutpoint that fits the data better.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># QQ-plot of MD vs. F-distribution</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">PlotMD</span>(res.gimcd<span class="sc">$</span>dist, <span class="fu">ncol</span>(sepe_transformed))</span></code></pre></div>
 <p><img src="data:image/png;base64,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" /><!-- --></p>
-<p>Using 24 as the cutpoint results in 13 outliers. As before, we can use <code>Winsimp()</code> to impute values for the outliers.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># find outliers with cutpoint 70</span>
-outind &lt;-<span class="st"> </span><span class="kw">ifelse</span>(res.gimcd<span class="op">$</span>dist <span class="op">&gt;</span><span class="st"> </span><span class="dv">24</span>, <span class="ot">TRUE</span>, <span class="ot">FALSE</span>)
-
-<span class="co"># set NAs to FALSE</span>
-outind[<span class="kw">is.na</span>(outind)] &lt;-<span class="st"> </span><span class="ot">FALSE</span>
-
-<span class="co"># how many outliers are there?</span>
-<span class="kw">sum</span>(outind)
-<span class="co">#&gt; [1] 13</span></code></pre></div>
+<p>Using 24 as the cutpoint results in 13 outliers. As before, we can
+use <code>Winsimp()</code> to impute values for the outliers.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># find outliers with cutpoint 70</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>outind <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(res.gimcd<span class="sc">$</span>dist <span class="sc">&gt;</span> <span class="dv">24</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># set NAs to FALSE</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>outind[<span class="fu">is.na</span>(outind)] <span class="ot">&lt;-</span> <span class="cn">FALSE</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co"># how many outliers are there?</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(outind)</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 13</span></span></code></pre></div>
 </div>
 <div id="eadet-and-eaimp" class="section level3">
 <h3><code>EAdet()</code> and <code>EAimp()</code></h3>
-<p>The Epidemic Algorithm (EA) is implemented in two functions: <code>EAdet()</code> contains the detection algorthm and <code>EAimp()</code> contains the imputation algorithm. The details of EA are described in <span class="citation">(Béguin and Hulliger 2004)</span>. Compared to the methods shown above, the Epidemic Algorithm does not rely on a distributional assumption. The basic idea of the Epidemic Algorithm is to simulate an epidemic that starts at a central point (a spatial median) and then infects points in the neighbourhood in a stepwise manner (check the documentation for details). The last infected points are nominated as outliers.</p>
-<p>We can feed the original (log-transformed) <code>sepe</code> dataset to the detection function EAdet() in spite of the 48% of items with value zero.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># create transformed data including zeros</span>
-df &lt;-<span class="st"> </span><span class="kw">log</span>(sepe[, sepevar8] <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)
-
-<span class="co"># run the EAdet() algorithm</span>
-res.eadet &lt;-<span class="st"> </span><span class="kw">EAdet</span>(df, sepe<span class="op">$</span>weight)
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  Some mads are 0. Standardizing with  0.9  quantile absolute deviations!</span></code></pre></div>
-<p><img src="data:image/png;base64,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" /><!-- --></p>
-<pre><code>#&gt; 
-#&gt;  EA detection has finished with 664 infected points in 0.08 seconds.</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># how many outliers?</span>
-<span class="kw">sum</span>(res.eadet<span class="op">$</span>outind, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)
-<span class="co">#&gt; [1] 7</span></code></pre></div>
-<p>For the <code>sepe</code> data, the default cutpoint results in only 7 outliers. However, there is a further set of 11 observations that have not been infected. This may happen because they have too many missing values or because they are too far outlying. The function value <code>outind</code> is a logical vector with <code>TRUE</code> for the outliers (late infected), <code>FALSE</code> for the good observations (early infected), and <code>NA</code> for the never infected observations. In this example, the 11 not infected observations consist entirely of missing values.</p>
-<p>By default, the (weighted) cumulative distribution function of the infection times is plotted. As before, selecting a good cutpoint needs some care. The default outlier rule declares observations that are infected at time 8 or later as outliers. Looking at the (weighted) cumulative distribution function of the infection times, it seems more reasonable to set the cutpoint to 5. Using this new cutpoint yields 20 outliers. The Epidemic Algorithm results in substantially less outliers than the other algorithms shown above.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># determine outliers based on new cutpoint</span>
-outind &lt;-<span class="st"> </span>res.eadet<span class="op">$</span>infection.time <span class="op">&gt;=</span><span class="st"> </span><span class="dv">5</span>
-
-<span class="co"># how many outliers are there?</span>
-<span class="kw">sum</span>(outind, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)
-<span class="co">#&gt; [1] 20</span></code></pre></div>
-<p>The Epidemic Algorithm suffers from the many zeros and missing values in the <code>sepe</code> dataset because the inter-point distances are calculated on the basis of the jointly observed values only. Thus, this algorithm might be applied with care if your data contains many missing values. Of course, it is possible to discard completely missing observations (you may set the parameter <code>rm.missing = TRUE</code>) and it is also possible to set zeros to missing values before running <code>EAdet()</code>.</p>
-<p>We use <code>EAimp()</code> to impute values. Since the zeros were not set to missing, re-insertion is not an issue. <code>EAimp()</code> uses the distances calculated in <code>EAdet()</code> and starts an epidemic at each observation to be imputed until donors for the missing values are infected. Then a donor is selected randomly.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># determine outliers based on new cutpoint</span>
-res.eaimp &lt;-<span class="st"> </span><span class="kw">EAimp</span>(df, sepe<span class="op">$</span>weight, <span class="dt">outind =</span> res.eadet<span class="op">$</span>outind, 
-                   <span class="dt">duration =</span> res.eadet<span class="op">$</span>output<span class="op">$</span>duration)
-<span class="co">#&gt; Missing values in outlier indicator set to FALSE.</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  Dimensions (n,p): 675 8</span>
-<span class="co">#&gt;  Number of complete records  449</span>
-<span class="co">#&gt;  Number of records with maximum p/2 variables missing  633</span>
-<span class="co">#&gt;  Number of imputands is  230</span>
-<span class="co">#&gt;  Reach for imputation is  max</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  Number of remaining missing values is  0</span></code></pre></div>
+<p>The Epidemic Algorithm (EA) is implemented in two functions:
+<code>EAdet()</code> contains the detection algorithm and
+<code>EAimp()</code> contains the imputation algorithm. The details of
+EA are described in <span class="citation">(Béguin and Hulliger
+2004)</span>. Compared to the methods shown above, the Epidemic
+Algorithm does not rely on a distributional assumption. The basic idea
+of the Epidemic Algorithm is to simulate an epidemic that starts at a
+central point (a spatial median) and then infects points in the
+neighbourhood in a stepwise manner (check the documentation for
+details). The last infected points are nominated as outliers.</p>
+<p>We can feed the original (log-transformed) <code>sepe</code> dataset
+to the detection function EAdet() in spite of the 48% of items with
+value zero.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create transformed data including zeros</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">log</span>(sepe[, sepevar8] <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># run the EAdet() algorithm</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>res.eadet <span class="ot">&lt;-</span> <span class="fu">EAdet</span>(df, sepe<span class="sc">$</span>weight)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Some mads are 0. Standardizing with  0.9  quantile absolute deviations!</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; EA detection has finished with 664 infected points in 0.12 seconds.</span></span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># how many outliers?</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(res.eadet<span class="sc">$</span>outind, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 7</span></span></code></pre></div>
+<p>For the <code>sepe</code> data, the default cutpoint results in only
+7 outliers. However, there is a further set of 11 observations that have
+not been infected. This may happen because they have too many missing
+values or because they are too far outlying. The function value
+<code>outind</code> is a logical vector with <code>TRUE</code> for the
+outliers (late infected), <code>FALSE</code> for the good observations
+(early infected), and <code>NA</code> for the never infected
+observations. In this example, the 11 not infected observations consist
+entirely of missing values.</p>
+<p>By default, the (weighted) cumulative distribution function of the
+infection times is plotted. As before, selecting a good cutpoint needs
+some care. The default outlier rule declares observations that are
+infected at time 8 or later as outliers. Looking at the (weighted)
+cumulative distribution function of the infection times, it seems more
+reasonable to set the cutpoint to 5. Using this new cutpoint yields 20
+outliers. The Epidemic Algorithm results in substantially less outliers
+than the other algorithms shown above.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># determine outliers based on new cutpoint</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>outind <span class="ot">&lt;-</span> res.eadet<span class="sc">$</span>infection.time <span class="sc">&gt;=</span> <span class="dv">5</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co"># how many outliers are there?</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(outind, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 20</span></span></code></pre></div>
+<p>The Epidemic Algorithm suffers from the many zeros and missing values
+in the <code>sepe</code> dataset because the inter-point distances are
+calculated on the basis of the jointly observed values only. Thus, this
+algorithm might be applied with care if your data contains many missing
+values. Of course, it is possible to discard completely missing
+observations (you may set the parameter <code>rm.missing = TRUE</code>)
+and it is also possible to set zeros to missing values before running
+<code>EAdet()</code>.</p>
+<p>We use <code>EAimp()</code> to impute values. Since the zeros were
+not set to missing, re-insertion is not an issue. <code>EAimp()</code>
+uses the distances calculated in <code>EAdet()</code> and starts an
+epidemic at each observation to be imputed until donors for the missing
+values are infected. Then a donor is selected randomly.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># determine outliers based on new cutpoint</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>res.eaimp <span class="ot">&lt;-</span> <span class="fu">EAimp</span>(df, sepe<span class="sc">$</span>weight, <span class="at">outind =</span> res.eadet<span class="sc">$</span>outind, </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">duration =</span> res.eadet<span class="sc">$</span>duration)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Missing values in outlier indicator set to FALSE.</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Dimensions (n,p): 675 8</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Number of complete records  449</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Number of records with maximum p/2 variables missing  633</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Number of imputands is  230</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Reach for imputation is  max</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Number of remaining missing values is  0</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; EA imputation has finished in 1.08 seconds.</span></span></code></pre></div>
 </div>
 </div>
 <div id="conclusion" class="section level2">
 <h2>Conclusion</h2>
-<p>Multivariate outlier detection starts before running any outlier detection algorithms such as the ones implemented in the modi package. Every data set has its unique issues which need to be solved before outlier detection. Balance rules, missing value patterns as well as distributions need to be checked. For example, the <code>sepe</code> dataset has a zero inflated distribution and hence needs to be transformed in order to satisfy the distributional assumptions of the parametric algorithms. Once the assumptions are satisfied, the parameters of the outlier detection function need to be chosen.</p>
-<p>Although the algorithms in the package <strong>modi</strong> have a high power of detecting multivariate outliers, user-intervention to choose the cutpoint is necessary as has been shown in the examples above. Moreover, it is important to check the results of the imputation. For example, we sometimes need to restrict imputed data to positive values.</p>
-<p>Choosing an appropriate outlier detection method is difficult since all presented methods have advantages and disadvantages. The distribution of the <code>sepe</code> dataset is far from multivariate normal. Nevertheless, methods with an underlying assumption of multivariate normality may return satisfactory results if the distribution is uni-modal apart from the zero-inflation which must be treated before applying the outlier detection.</p>
+<p>Multivariate outlier detection starts before running any outlier
+detection algorithms such as the ones implemented in the modi package.
+Every data set has its unique issues which need to be solved before
+outlier detection. Balance rules, missing value patterns as well as
+distributions need to be checked. For example, the <code>sepe</code>
+dataset has a zero inflated distribution and hence needs to be
+transformed in order to satisfy the distributional assumptions of the
+parametric algorithms. Once the assumptions are satisfied, the
+parameters of the outlier detection function need to be chosen.</p>
+<p>Although the algorithms in the package <strong>modi</strong> have a
+high power of detecting multivariate outliers, user-intervention to
+choose the cutpoint is necessary as has been shown in the examples
+above. Moreover, it is important to check the results of the imputation.
+For example, we sometimes need to restrict imputed data to positive
+values.</p>
+<p>Choosing an appropriate outlier detection method is difficult since
+all presented methods have advantages and disadvantages. The
+distribution of the <code>sepe</code> dataset is far from multivariate
+normal. Nevertheless, methods with an underlying assumption of
+multivariate normality may return satisfactory results if the
+distribution is uni-modal apart from the zero-inflation which must be
+treated before applying the outlier detection.</p>
+</div>
+<div id="acknowledgement" class="section level2">
+<h2>Acknowledgement</h2>
+<p>The implementation of the package <strong>modi</strong> was supported
+by the Hasler Foundation.</p>
 </div>
 <div id="references" class="section level2 unnumbered">
-<h2>References</h2>
-<div id="refs" class="references">
-<div id="ref-beguin2004">
-<p>Béguin, Cédric, and Beat Hulliger. 2004. “Multivariate Outlier Detection in Incomplete Survey Data; the Epidemic Algorithm and Transformed Rank Correlations.” <em>Journal of the Royal Statistical Society, Series A; Statistics in Society</em> 162 (2): 275–94.</p>
+<h2 class="unnumbered">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-beguin2004" class="csl-entry">
+Béguin, Cédric, and Beat Hulliger. 2004. <span>“Multivariate Outlier
+Detection in Incomplete Survey Data; the Epidemic Algorithm and
+Transformed Rank Correlations.”</span> <em>Journal of the Royal
+Statistical Society, Series A; Statistics in Society</em> 162 (2):
+275–94.
 </div>
-<div id="ref-beguin2008">
-<p>———. 2008. “The BACON-EEM Algorithm for Multivariate Outlier Detection in Incomplete Survey Data.” <em>Survey Methodology</em> 34 (1): 91–103.</p>
+<div id="ref-beguin2008" class="csl-entry">
+———. 2008. <span>“The BACON-EEM Algorithm for Multivariate Outlier
+Detection in Incomplete Survey Data.”</span> <em>Survey Methodology</em>
+34 (1): 91–103.
 </div>
-<div id="ref-bill2016">
-<p>Bill, Marc, and Beat Hulliger. 2016. “Treatment of Multivariate Outliers in Incomplete Business Survey Data.” <em>Austrian Journal of Statistics</em> 45: 3–23. doi:<a href="https://doi.org/10.17713/ajs.v45i1.86">10.17713/ajs.v45i1.86</a>.</p>
+<div id="ref-bill2016" class="csl-entry">
+Bill, Marc, and Beat Hulliger. 2016. <span>“Treatment of Multivariate
+Outliers in Incomplete Business Survey Data.”</span> <em>Austrian
+Journal of Statistics</em> 45: 3–23. <a href="https://doi.org/10.17713/ajs.v45i1.86">https://doi.org/10.17713/ajs.v45i1.86</a>.
 </div>
 </div>
 </div>
 
+
+
+<!-- code folding -->
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

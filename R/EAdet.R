@@ -24,7 +24,7 @@
 #' @param transmission.function form of the transmission function of distance d:
 #' \code{"step"} is a heaviside function which jumps to \code{1} at \code{d0},
 #' \code{"linear"} is linear between \code{0} and \code{d0}, \code{"power"} is
-#' \code{(beta*d+1)^(-p)} for \code{p = ncol(data)} as default, \code{"root"} is the
+#' \code{(beta*d+1)^(-p)} for \code{p = ncol(data)} and \code{beta <- as.single((0.01^(-1 / power) - 1) / d0))} as default, \code{"root"} is the
 #' function \code{1-(1-d/d0)^(1/maxl)}.
 #' @param power sets \code{p = power}.
 #' @param distance.type distance type in function \code{dist()}.
@@ -89,11 +89,9 @@
 #' @examples
 #' data(bushfirem, bushfire.weights)
 #' det.res <- EAdet(bushfirem, bushfire.weights)
-#' print(det.res$output)
 #' @export
 #' @importFrom stats rbinom
 #' @importFrom graphics plot abline
-#' @importFrom utils memory.size
 EAdet <- function(data, weights, reach = "max", transmission.function = "root",
                   power = ncol(data), distance.type = "euclidean", maxl = 5,
                   plotting = TRUE, monitor = FALSE, prob.quantile = 0.9,
@@ -103,7 +101,7 @@ EAdet <- function(data, weights, reach = "max", transmission.function = "root",
   # ------- preparation -------
 
   # transform data to matrix
-  if (!is.matrix(data)) {data <- as.matrix(data)}
+  if (!is.matrix(data)) {data <- data.matrix(data)}
 
   # number of rows
   n <- nrow(data)
@@ -205,10 +203,9 @@ EAdet <- function(data, weights, reach = "max", transmission.function = "root",
 	# The distances calculated by EA.dist are the
 	# counterprobabilities in single precision.
   if (monitor) {
-    cat("\n memory use after distances: ", memory.size())
-    cat("\n Index of sample spatial median is ", EA.dist.res$output[1])
-    cat("\n Maximal distance to nearest neighbor is ", EA.dist.res$output[2])
-    cat("\n Transmission distance is ", EA.dist.res$output[3], "\n")
+    cat("\n Index of sample spatial median is ", EA.dist.res$sample.spatial.median.index)
+    cat("\n Maximal distance to nearest neighbor is ", EA.dist.res$max.min.di)
+    cat("\n Transmission distance is ", EA.dist.res$transmission.distance, "\n")
   }
 
 	# ------- initialisation -------
@@ -237,8 +234,8 @@ EAdet <- function(data, weights, reach = "max", transmission.function = "root",
 
 	  } else {
 
-	    # else start with first obs.
-	    start.point <- EA.dist.res$output[1]
+	    # else start with sample spatial median index
+	    start.point <- EA.dist.res$sample.spatial.median.index
 
 	  }
 	}
@@ -341,9 +338,6 @@ EAdet <- function(data, weights, reach = "max", transmission.function = "root",
 	# duration of infection
 	duration <- max(infection.time)
 
-	# print progress to console
-	if (verbose) {cat("\n memory use after epidemic: ", memory.size())}
-
 	# stop computation time
 	calc.time <- round(proc.time()[1] - calc.time, 5)
 
@@ -409,40 +403,47 @@ EAdet <- function(data, weights, reach = "max", transmission.function = "root",
   # not infected are set to high inf.time to show better
   # the healthy on a graph of infection times
 
-  if(plotting) {
-    plot.time <- inf.time
-    plot.time[!infectednfull] <- ceiling(1.2 * duration)
-    ord <- order(plot.time)
-    plot(plot.time[ord], cumsum(weights[ord]), xlab = "infection time",
-         ylab = "(weighted) cdf of infection time")
-    abline(v = cutpoint)
-  }
+  if(plotting) plotIT(inf.time, weights, cutpoint)
 
   # ------- results -------
 
-  # prepare output
-	EAdet.r <- list(
-	  sample.size = n, discarded.observations = discarded,
-	  missing.observations = missobs, number.of.variables = p,
-	  n.complete.records = sum(complete.records),
-	  n.usable.records = sum(usable.records), medians = medians,
-	  mads = mads, prob.quantile = prob.quantile,
-	  quantile.deviations = qads, start = start.point,
-	  transmission.function = transmission.function, power = power,
-	  maxl = maxl, max.min.di = EA.dist.res$output[2],
-	  transmission.distance = EA.dist.res$output[3], threshold = threshold,
-	  distance.type = distance.type, deterministic = deterministic,
-	  number.infected = n.infected, cutpoint = cutpoint,
-	  number.outliers = sum(outlier), outliers = outlier.ind,
-	  duration = duration, computation.time = calc.time,
-	  initialisation.computation.time = comp.time.init)
-
   # output to console
-	cat("\n", "EA detection has finished with", n.infected, "infected points in",
-	    calc.time[1], "seconds.")
+  message(paste0("EA detection has finished with ", n.infected,
+                 " infected points in ", round(calc.time[1], 2), " seconds."))
 
   # return output
-  return(invisible(list(output = EAdet.r, infected = infectednfull,
-                        infection.time = inf.time, outind = outlier)))
+	return(
+	  structure(
+	    list(
+	      sample.size = n,
+	      discarded.observations = discarded,
+	      missing.observations = missobs,
+	      number.of.variables = p,
+	      n.complete.records = sum(complete.records),
+	      n.usable.records = sum(usable.records),
+	      medians = medians,
+	      mads = mads,
+	      prob.quantile = prob.quantile,
+	      quantile.deviations = qads,
+	      start = start.point,
+	      transmission.function = transmission.function,
+	      power = power,
+	      maxl = maxl,
+	      max.min.di = EA.dist.res$max.min.di,
+	      transmission.distance = EA.dist.res$transmission.distance,
+	      threshold = threshold,
+	      distance.type = distance.type,
+	      deterministic = deterministic,
+	      number.infected = n.infected,
+	      cutpoint = cutpoint,
+	      number.outliers = sum(outlier),
+	      outliers = outlier.ind,
+	      duration = duration,
+	      computation.time = calc.time,
+	      initialisation.computation.time = comp.time.init,
+	      infected = infectednfull,
+	      infection.time = inf.time,
+	      outind = outlier), class = "EAdet.r"))
+
 }
 

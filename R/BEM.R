@@ -78,7 +78,8 @@
 #' @examples
 #' # Bushfire data set with 20% MCAR
 #' data(bushfirem, bushfire.weights)
-#' bem.res <- BEM(bushfirem, bushfire.weights, alpha = (1 - 0.01 / nrow(bushfirem)))
+#' bem.res <- BEM(bushfirem, bushfire.weights,
+#'                alpha = (1 - 0.01 / nrow(bushfirem)))
 #' print(bem.res$output)
 #' @export
 #' @importFrom stats qchisq cov.wt mahalanobis
@@ -215,7 +216,8 @@ BEM <- function(data, weights, v = 2, c0 = 3, alpha = 0.01, md.type = "m",
         # case where no missing value occurs =>
         # regular mean and covariance matrix
         EM.mean <- apply(data, 2, weighted.mean, w = weights)
-        EM.var <- cov.wt(data, wt = weights, center = EM.mean, method = "ML")$cov
+        EM.var <- cov.wt(data, wt = weights, center = EM.mean,
+                         method = "ML")$cov
 
         } else {
 
@@ -593,7 +595,7 @@ BEM <- function(data, weights, v = 2, c0 = 3, alpha = 0.01, md.type = "m",
             weights.good.obs <- weights.good[1:s.counts.good[1]]
             T.obs.good[1, ] <- T.obs.good[ ,1] <-
               c(sum(weights.good.obs),
-                apply(weights.good.obs * data[good[1:s.counts.good[1]], , drop = F], 2,sum))
+                apply(weights.good.obs * data[good[1:s.counts.good[1]], , drop = FALSE], 2,sum))
 
             # start for loop
             for (i in 1:s.counts.good[1]) {
@@ -606,7 +608,7 @@ BEM <- function(data, weights, v = 2, c0 = 3, alpha = 0.01, md.type = "m",
           }
 
         EM.result.good <-
-          EM.normal(data = data[good[(s.id.good[1] + 1):n.good], , drop = F],
+          EM.normal(data = data[good[(s.id.good[1] + 1):n.good], , drop = FALSE],
                      weights.good[(s.id.good[1] + 1):n.good], n = N.good, p = p,
                      s.counts = s.counts.good[2:S.good],
                      s.id = s.id.good[2:S.good] - s.id.good[1], S = S.good - 1,
@@ -621,7 +623,7 @@ BEM <- function(data, weights, v = 2, c0 = 3, alpha = 0.01, md.type = "m",
         T.obs.good <- matrix(0, p + 1, p + 1)
 
         EM.result.good <-
-          EM.normal(data = data[good, , drop = F], weights.good,
+          EM.normal(data = data[good, , drop = FALSE], weights.good,
                      n = N.good, p = p, s.counts = s.counts.good,
                      s.id = s.id.good, S = S.good, T.obs = T.obs.good,
                      start.mean = EM.mean.good, start.var = EM.var.good,
@@ -669,7 +671,7 @@ BEM <- function(data, weights, v = 2, c0 = 3, alpha = 0.01, md.type = "m",
       # case where some observations are complete,
       # more steps of EM with the sufficient
       # statistics computed before
-      EM.result.good <- EM.normal(data = data[good[(s.id.good[1] + 1):n.good], , drop = F],
+      EM.result.good <- EM.normal(data = data[good[(s.id.good[1] + 1):n.good], , drop = FALSE],
                                    weights.good[(s.id.good[1] + 1):n.good], n = N.good,
                                    p = p, s.counts = s.counts.good[2:S.good],
                                    s.id = s.id.good[2:S.good] - s.id.good[1],
@@ -681,7 +683,7 @@ BEM <- function(data, weights, v = 2, c0 = 3, alpha = 0.01, md.type = "m",
 
         # case where all observations have missing items =>
         # more steps of EM
-        EM.result.good <- EM.normal(data = data[good, , drop = F], weights.good,
+        EM.result.good <- EM.normal(data = data[good, , drop = FALSE], weights.good,
                                      n = N.good, p = p, s.counts = s.counts.good,
                                      s.id = s.id.good, S = S.good, T.obs = T.obs.good,
                                      start.mean = EM.mean.good, start.var = EM.var.good,
@@ -707,7 +709,7 @@ BEM <- function(data, weights, v = 2, c0 = 3, alpha = 0.01, md.type = "m",
       }
 
     # computation of the Mahalanobis distances
-    dist <- mahalanobis(data[1:s.id[1], indices, drop = F], EM.mean.good[indices],
+    dist <- mahalanobis(data[1:s.id[1], indices, drop = FALSE], EM.mean.good[indices],
                         EM.var.good.inverse[indices, indices],
                         inverted = (md.type == "c")) * p / (p - nb.missing.items[1])
 
@@ -719,9 +721,9 @@ BEM <- function(data, weights, v = 2, c0 = 3, alpha = 0.01, md.type = "m",
         indices <- (!missing.items[i, ])
 
         dist <-
-          c(dist, mahalanobis(data[(s.id[i - 1] + 1):s.id[i], indices, drop = F],
+          c(dist, mahalanobis(data[(s.id[i - 1] + 1):s.id[i], indices, drop = FALSE],
                               EM.mean.good[indices],
-                              EM.var.good.inverse[indices, indices, drop = F],
+                              EM.var.good.inverse[indices, indices, drop = FALSE],
                               inverted = (md.type == "c")) * p / (p - nb.missing.items[i]))
 
       }
@@ -744,28 +746,27 @@ BEM <- function(data, weights, v = 2, c0 = 3, alpha = 0.01, md.type = "m",
 
   # ------- results -------
 
-  # prepare output
-  BEM.r <- list(
-    sample.size = n,
-    discarded.observations = discarded,
-    number.of.variables = p,
-    significance.level = alpha,
-    initial.basic.subset.size = initial.length,
-    final.basic.subset.size = length(good),
-    number.of.iterations = count,
-    computation.time = calc.time,
-    center = EM.mean.good,
-    scatter = EM.var.good,
-    cutpoint = cutpoint)
+  # output to console
+  message(paste0("BEM has detected ", length(outliers), " outlier(s) in ",
+                 round(calc.time[1], 2), " seconds.", "\n"))
 
-  BEM.i <- list(outind = outnfull, dist = distnfull)
+  # return output
+  return(
+    structure(
+      list(
+        sample.size = n,
+        discarded.observations = discarded,
+        number.of.variables = p,
+        significance.level = alpha,
+        initial.basic.subset.size = initial.length,
+        final.basic.subset.size = length(good),
+        number.of.iterations = count,
+        computation.time = calc.time,
+        center = EM.mean.good,
+        scatter = EM.var.good,
+        cutpoint = cutpoint,
+        outind = outnfull,
+        dist = distnfull), class = "BEM.r"))
 
-	# output to console
-	cat("\n", "BEM has detected", length(outliers),
-	    "outlier(s) in", calc.time[1], "seconds.", "\n", "\n")
-
-	# return output
-	return(invisible(list(output = BEM.r, outind = outnfull,
-	                      dist = distnfull)))
 }
 

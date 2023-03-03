@@ -5,10 +5,22 @@
 \title{Epidemic Algorithm for imputation of multivariate outliers in incomplete
 survey data.}
 \usage{
-EAimp(data, weights, outind, reach = "max", transmission.function = "root",
-  power = ncol(data), distance.type = "euclidean", duration = 5,
-  maxl = 5, kdon = 1, monitor = FALSE, threshold = FALSE,
-  deterministic = TRUE, fixedprop = 0)
+EAimp(
+  data,
+  weights,
+  outind,
+  reach = "max",
+  transmission.function = "root",
+  power = ncol(data),
+  distance.type = "euclidean",
+  duration = 5,
+  maxl = 5,
+  kdon = 1,
+  monitor = FALSE,
+  threshold = FALSE,
+  deterministic = TRUE,
+  fixedprop = 0
+)
 }
 \arguments{
 \item{data}{a data frame or matrix with the data.}
@@ -80,8 +92,7 @@ are infected. Then a donor is selected randomly.
 \examples{
 data(bushfirem, bushfire.weights)
 det.res <- EAdet(bushfirem, bushfire.weights)
-imp.res <- EAimp(bushfirem, bushfire.weights, outind = det.res$outind,
-reach = det.res$output$max.min.di, kdon = 3)
+imp.res <- EAimp(bushfirem, bushfire.weights, outind = det.res$outind, kdon = 3)
 print(imp.res$output)
 }
 \references{
