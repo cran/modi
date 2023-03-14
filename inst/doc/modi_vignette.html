@@ -12,7 +12,7 @@
 
 <meta name="author" content="Beat Hulliger, Martin Sterchi" />
 
-<meta name="date" content="2023-03-03" />
+<meta name="date" content="2023-03-13" />
 
 <title>Introduction to modi</title>
 
@@ -362,7 +362,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Introduction to modi</h1>
 <h4 class="author">Beat Hulliger, Martin Sterchi</h4>
-<h4 class="date">2023-03-03</h4>
+<h4 class="date">2023-03-13</h4>
 
 
 
@@ -426,12 +426,14 @@ stats package.</li>
 </div>
 <div id="data" class="section level2">
 <h2>Data</h2>
-<p>The <strong>modi</strong> package contains two datasets, first a
+<p>The <strong>modi</strong> package contains three datasets, first a
 version of the well known Bushfire dataset containing missing values
-(<code>bushfirem</code>), and second the <code>sepe</code> dataset which
-is an anonymized sample of a pilot survey on environment protection
-expenditures of the Swiss private economy (Federal Statistical Office).
-In this vignette, we will use the <code>sepe</code> dataset.</p>
+(<code>bushfirem</code>), second the <code>sepe</code> dataset which is
+an anonymized sample of a pilot survey on environment protection
+expenditures of the Swiss private economy (Federal Statistical Office),
+and third an enhanced version of the Living Standards Measurement Survey
+Albania 2012. In this vignette, we will use the <code>sepe</code>
+dataset.</p>
 <p>The units in the <code>sepe</code> dataset are enterprises and all
 monetary variables are in thousand Swiss Francs. The dataset contains
 675 observations on 23 variables. However, we will only use the
@@ -667,7 +669,7 @@ of 40 observations.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run the BEM() algorithm</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>res.bem <span class="ot">&lt;-</span> <span class="fu">BEM</span>(sepe_transformed, sepe<span class="sc">$</span>weight, <span class="at">c0 =</span> <span class="dv">5</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: missing observations 2 4 11 12 41 57 60 65 67 68 70 90 103 105 106 107 108 109 110 114 118 125 129 132 135 136 144 166 178 181 182 188 193 208 209 210 214 215 216 218 219 223 237 238 244 245 256 259 260 261 267 268 269 270 272 274 276 277 278 279 281 301 304 312 313 316 321 323 327 332 334 337 339 346 348 350 351 354 357 374 375 392 395 397 401 403 409 410 411 412 417 437 439 450 451 466 467 469 471 473 474 479 492 493 494 496 499 500 505 509 510 518 523 525 526 528 529 530 538 545 546 547 549 550 551 552 553 554 556 558 559 564 569 571 572 574 575 604 605 618 619 628 629 630 632 637 638 644 646 648 655 656 657 659 661 662 665 666 removed from the data</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; BEM has detected 385 outlier(s) in 0.81 seconds.</span></span></code></pre></div>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; BEM has detected 385 outlier(s) in 0.8 seconds.</span></span></code></pre></div>
 <p>We can immediately see that a lot (158 to be precise) of the
 observations have been removed by <code>BEM()</code> because they are
 completely missing. <code>BEM()</code> identifies 385 of the remaining
@@ -681,7 +683,7 @@ observations is above 100.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run the BEM() algorithm with different alpha</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>res.bem <span class="ot">&lt;-</span> <span class="fu">BEM</span>(sepe_transformed, sepe<span class="sc">$</span>weight, <span class="at">c0 =</span> <span class="dv">5</span>, <span class="at">alpha =</span> <span class="fl">0.01</span> <span class="sc">/</span> <span class="fu">nrow</span>(sepe_transformed))</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning: missing observations 2 4 11 12 41 57 60 65 67 68 70 90 103 105 106 107 108 109 110 114 118 125 129 132 135 136 144 166 178 181 182 188 193 208 209 210 214 215 216 218 219 223 237 238 244 245 256 259 260 261 267 268 269 270 272 274 276 277 278 279 281 301 304 312 313 316 321 323 327 332 334 337 339 346 348 350 351 354 357 374 375 392 395 397 401 403 409 410 411 412 417 437 439 450 451 466 467 469 471 473 474 479 492 493 494 496 499 500 505 509 510 518 523 525 526 528 529 530 538 545 546 547 549 550 551 552 553 554 556 558 559 564 569 571 572 574 575 604 605 618 619 628 629 630 632 637 638 644 646 648 655 656 657 659 661 662 665 666 removed from the data</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; BEM has detected 89 outlier(s) in 0.51 seconds.</span></span></code></pre></div>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; BEM has detected 89 outlier(s) in 0.53 seconds.</span></span></code></pre></div>
 <p>Now, the algorithm returns 89 outliers. Clearly, this is a more
 plausible result than before. With the help of <code>PlotMD()</code>, we
 can create a QQ-plot of the Mahalanobis distances and the corresponding
@@ -807,7 +809,7 @@ missing values have a slope of 0 (check output by adding
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Number of missing items:  2008 , percentage of missing items:  0.4854932</span></span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TRC has detected 147 outlier(s) in 0.1 seconds.</span></span></code></pre></div>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TRC has detected 147 outlier(s) in 0.08 seconds.</span></span></code></pre></div>
 <p>Reducing <code>gamma</code> results in a better provisional
 imputation. However, the number of outliers stays almost the same (146
 outliers).</p>
@@ -817,7 +819,7 @@ outliers).</p>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Number of missing items:  2008 , percentage of missing items:  0.4854932</span></span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TRC has detected 146 outlier(s) in 0.06 seconds.</span></span></code></pre></div>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; TRC has detected 146 outlier(s) in 0.13 seconds.</span></span></code></pre></div>
 <p>The cutpoint chosen by <code>TRC()</code> is at 54.67. However,
 visual inspection of the QQ-plot below indicates that the cutpoint
 should be chosen at about 210.</p>
@@ -855,7 +857,7 @@ number generators used in the algorithm. We set them here so that our
 results are reproducible.</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run the GIMCD() algorithm</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>res.gimcd <span class="ot">&lt;-</span> <span class="fu">GIMCD</span>(sepe_transformed, <span class="at">seedem =</span> <span class="dv">234567819</span>, <span class="at">seedmcd =</span> <span class="dv">4097</span>)</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; GIMCD has detected 57 outliers in 0.88 seconds.</span></span></code></pre></div>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; GIMCD has detected 57 outliers in 0.84 seconds.</span></span></code></pre></div>
 <p>The output above shows that <code>GIMCD()</code> finds 57 outliers.
 The default cutpoint is at 16.49.</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># find the cutpoint chosen by GIMCD()</span></span>
@@ -900,7 +902,7 @@ value zero.</p>
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>res.eadet <span class="ot">&lt;-</span> <span class="fu">EAdet</span>(df, sepe<span class="sc">$</span>weight)</span>
 <span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Some mads are 0. Standardizing with  0.9  quantile absolute deviations!</span></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; EA detection has finished with 664 infected points in 0.12 seconds.</span></span></code></pre></div>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; EA detection has finished with 664 infected points in 0.09 seconds.</span></span></code></pre></div>
 <p><img src="data:image/png;base64,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" /><!-- --></p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># how many outliers?</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(res.eadet<span class="sc">$</span>outind, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
@@ -953,7 +955,7 @@ values are infected. Then a donor is selected randomly.</p>
 <span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Reach for imputation is  max</span></span>
 <span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
 <span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Number of remaining missing values is  0</span></span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; EA imputation has finished in 1.08 seconds.</span></span></code></pre></div>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; EA imputation has finished in 1.06 seconds.</span></span></code></pre></div>
 </div>
 </div>
 <div id="conclusion" class="section level2">

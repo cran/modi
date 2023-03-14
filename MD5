@@ -1,4 +1,4 @@
-e705180743dd8eb2e9be375e438043a4 *DESCRIPTION
+6e02d21bbfe4c641884bd234e8a90fb2 *DESCRIPTION
 9ef1dd0b391649f8572638af4e9fdbda *LICENSE
 a4805a91751b2db815f37042245f0a2d *NAMESPACE
 e43657fa100b6bbe60719810d346f2d4 *NEWS.md
@@ -10,7 +10,7 @@ a278e25032e9dd352ba1d8f70ead4551 *R/EAimp.R
 3b8ecbb4e455fcc64810d68a7bd6202b *R/MDmiss.R
 54ecf1d48b7270e0419a794ee7359a26 *R/POEM.R
 7cb8c9a80ccbb38b6f6e2eb67436ece5 *R/TRC.R
-edfeb7f8aa26b971ef2aa632b512ce65 *R/data.R
+31b786bbc647bd27e6e35695df4cb78f *R/data.R
 cdbb075db0fdb3af9e678b1da9a2c767 *R/modi-internal.R
 4df8b555dbea7f7bf103b164dc00b67a *R/modi.R
 c95390aa5cd4be3905564687644a9e16 *R/plotIT.R
@@ -27,8 +27,8 @@ ba53d11aba56ecd59bd11d8ee838a129 *data/bushfirem.rda
 a96ffb50b417fdc2803c3d40d4321ed6 *data/sepe.rda
 e2e929125a18376c85eca8434d857294 *inst/CITATION
 7bac080465548bf664732128812cd8bb *inst/doc/modi_vignette.R
-bc5b06368499efd37910e2cc61c6f1cc *inst/doc/modi_vignette.Rmd
-f4a4ae0ce53cb32667d3ef7fed341254 *inst/doc/modi_vignette.html
+55dc6117b13a89ddb52273b42720cf51 *inst/doc/modi_vignette.Rmd
+2c6edb0626d20b6f6a3691e3624b11e7 *inst/doc/modi_vignette.html
 bae525eb64e5c8afcb4fe5b065e46259 *man/BEM.Rd
 48a5f0839652d2665013a31ee9cdfd71 *man/EA.dist.Rd
 04c579caee7a195e184d4c1ecaa1a9e7 *man/EAdet.Rd
@@ -47,7 +47,7 @@ ddb9422d73b66c464c365b39d879a175 *man/bushfire.weights.Rd
 c0cde13a2cbc2fee922cb2d9f46889b4 *man/bushfirem.Rd
 bd5c73f8a20612d1b717f76bc61d0b83 *man/ind.dij.Rd
 32d710999657eaf69d7e1bce63cf6c7b *man/ind.dijs.Rd
-95842617ee62b5a7d63f5ddbd5bff9b6 *man/lival.Rd
+4a6e456bfd16516b4fd971760eff2ae2 *man/lival.Rd
 af14a6a661c5f3a843db8b5bdab64658 *man/modi.Rd
 48812a2c752eaf34d4aafc8fb42227e8 *man/nz.min.Rd
 985977ae4810585b4ef94d16c329de2a *man/plotIT.Rd
@@ -72,4 +72,4 @@ abaff070364dc04dda91a18ce5aa4f09 *tests/testthat/test_TRC.R
 81550675ee2ad6a8f673ad3e5ac8fcd0 *tests/testthat/test_plotMD.R
 6954b4f457882f3432e72e4feaa81704 *tests/testthat/test_weightedQuantile.R
 d06986238fd6a3b1d044fbebbb19e508 *tests/testthat/test_weightedVar.R
-bc5b06368499efd37910e2cc61c6f1cc *vignettes/modi_vignette.Rmd
+55dc6117b13a89ddb52273b42720cf51 *vignettes/modi_vignette.Rmd

@@ -2,7 +2,7 @@ Package: modi
 Type: Package
 Title: Multivariate Outlier Detection and Imputation for Incomplete
         Survey Data
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: c(
     person("Beat", "Hulliger", email = "beat.hulliger@fhnw.ch", role = c("aut", "cre")),
     person("Martin", "Sterchi", email = "martin.sterchi@fhnw.ch", role = "ctb"),
@@ -25,10 +25,10 @@ RoxygenNote: 7.2.3
 Suggests: knitr, rmarkdown, survey, testthat
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2023-03-03 13:41:37 UTC; beat.hulliger
+Packaged: 2023-03-13 19:20:51 UTC; beat.hulliger
 Author: Beat Hulliger [aut, cre],
   Martin Sterchi [ctb],
   Tobias Schoch [ctb]
 Maintainer: Beat Hulliger <beat.hulliger@fhnw.ch>
 Repository: CRAN
-Date/Publication: 2023-03-03 14:20:02 UTC
+Date/Publication: 2023-03-14 09:40:02 UTC
