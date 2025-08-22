@@ -4,11 +4,11 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
-## ---- echo=FALSE, results='asis'----------------------------------------------
+## ----echo=FALSE, results='asis'-----------------------------------------------
 library(modi)
 knitr::kable(head(sepe[ ,c("idnr","weight","totinvwp","totinvwm","totinvap","totinvto","totexpwp","totexpwm","totexpap","totexpto")], 10))
 
-## ---- eval = TRUE-------------------------------------------------------------
+## ----eval = TRUE--------------------------------------------------------------
 # attach data
 data("sepe")
 
@@ -16,7 +16,7 @@ data("sepe")
 sepenozero <- sepe
 sepenozero[sepenozero == 0] <- NA
 
-## ---- eval = TRUE-------------------------------------------------------------
+## ----eval = TRUE--------------------------------------------------------------
 # relevant variables
 sepevar8 <- c("totinvwp","totinvwm","totinvap","totinvto",
               "totexpwp","totexpwm","totexpap","totexpto")
@@ -27,23 +27,23 @@ sepe_transformed <- log(sepenozero[ ,sepevar8] + 1)
 # show the first 5 observations
 head(sepe_transformed)
 
-## ---- eval = TRUE-------------------------------------------------------------
+## ----eval = TRUE--------------------------------------------------------------
 # run the BEM() algorithm
 res.bem <- BEM(sepe_transformed, sepe$weight, c0 = 5)
 
-## ---- eval = TRUE-------------------------------------------------------------
+## ----eval = TRUE--------------------------------------------------------------
 # run the BEM() algorithm with different alpha
 res.bem <- BEM(sepe_transformed, sepe$weight, c0 = 5, alpha = 0.01 / nrow(sepe_transformed))
 
-## ---- eval = TRUE, fig.width = 7, fig.height = 5, results = "hide"------------
+## ----eval = TRUE, fig.width = 7, fig.height = 5, results = "hide"-------------
 # QQ-plot of MD vs. F-distribution
 PlotMD(res.bem$dist, ncol(sepe_transformed), alpha = 0.95)
 
-## ---- eval = TRUE-------------------------------------------------------------
+## ----eval = TRUE--------------------------------------------------------------
 # find the cutpoint chosen by BEM()
 min(res.bem$dist[res.bem$outind])
 
-## ---- eval = TRUE-------------------------------------------------------------
+## ----eval = TRUE--------------------------------------------------------------
 # find outliers with cutpoint 70
 outind <- ifelse(res.bem$dist > 70, TRUE, FALSE)
 
@@ -53,11 +53,11 @@ outind[is.na(outind)] <- FALSE
 # how many outliers are there?
 sum(outind)
 
-## ---- eval = TRUE-------------------------------------------------------------
+## ----eval = TRUE--------------------------------------------------------------
 # find cutpoint with fixed number of outliers
 quantile(res.bem$dist, 0.95, na.rm = TRUE)
 
-## ---- eval = TRUE, fig.width = 7, fig.height = 5, results = "hide"------------
+## ----eval = TRUE, fig.width = 7, fig.height = 5, results = "hide"-------------
 # create transformed data including zeros
 df <- log(sepe[, sepevar8] + 1)
 
@@ -69,14 +69,14 @@ points(df$totinvto[!res.bem$outind], df$totexpto[!res.bem$outind])
 points(df$totinvto[res.bem$outind], df$totexpto[res.bem$outind], pch = 4, col = "red")
 points(df$totinvto[outind], df$totexpto[outind], pch = 0, col = "blue")
 
-## ---- eval = TRUE-------------------------------------------------------------
+## ----eval = TRUE--------------------------------------------------------------
 # apply Winsimp()
 res.winsimp <- Winsimp(sepe_transformed, 
                        res.bem$center, 
                        res.bem$scatter, 
                        outind)
 
-## ---- eval = TRUE-------------------------------------------------------------
+## ----eval = TRUE--------------------------------------------------------------
 # get the imputed data
 imp_data <- res.winsimp$imputed.data
 
@@ -89,7 +89,7 @@ zeros[is.na(zeros)] <- 0
 # re-insert zeros
 imp_data <- as.data.frame(ifelse(zeros == 1, 0, imp_data))
 
-## ---- eval = TRUE, fig.width = 7, fig.height = 5, results = "hide"------------
+## ----eval = TRUE, fig.width = 7, fig.height = 5, results = "hide"-------------
 # create transformed data including zeros
 df <- log(sepe[, sepevar8] + 1)
 
@@ -100,27 +100,27 @@ plot(df$totinvto, df$totexpto, type = "n", xlab = "Total Inv.", ylab = "Total Ex
 points(df$totinvto[outind], df$totexpto[outind], pch = 0, col = "blue")
 points(imp_data$totinvto[outind], imp_data$totexpto[outind], pch = 0, col = "green")
 
-## ---- eval = TRUE-------------------------------------------------------------
+## ----eval = TRUE--------------------------------------------------------------
 # log(x + 1) transformation
 sepe_transformed <- log(sepenozero[ ,sepevar8] + 1)
 
-## ---- eval = TRUE-------------------------------------------------------------
+## ----eval = TRUE--------------------------------------------------------------
 # run the TRC() algorithm
 res.trc <- TRC(sepe_transformed, sepe$weight)
 
-## ---- eval = TRUE-------------------------------------------------------------
+## ----eval = TRUE--------------------------------------------------------------
 # run the TRC() algorithm
 res.trc <- TRC(sepe_transformed, sepe$weight, gamma = 30 / res.trc$sample.size)
 
-## ---- eval = TRUE-------------------------------------------------------------
+## ----eval = TRUE--------------------------------------------------------------
 # find the cutpoint chosen by TRC()
 min(res.trc$dist[res.trc$outind])
 
-## ---- eval = TRUE, fig.width = 7, fig.height = 5, results = "hide"------------
+## ----eval = TRUE, fig.width = 7, fig.height = 5, results = "hide"-------------
 # QQ-plot of MD vs. F-distribution
 PlotMD(res.trc$dist, ncol(sepe_transformed))
 
-## ---- eval = TRUE-------------------------------------------------------------
+## ----eval = TRUE--------------------------------------------------------------
 # find outliers with cutpoint 70
 outind <- ifelse(res.trc$dist > 210, TRUE, FALSE)
 
@@ -130,19 +130,19 @@ outind[is.na(outind)] <- FALSE
 # how many outliers are there?
 sum(outind)
 
-## ---- eval = TRUE-------------------------------------------------------------
+## ----eval = TRUE--------------------------------------------------------------
 # run the GIMCD() algorithm
 res.gimcd <- GIMCD(sepe_transformed, seedem = 234567819, seedmcd = 4097)
 
-## ---- eval = TRUE-------------------------------------------------------------
+## ----eval = TRUE--------------------------------------------------------------
 # find the cutpoint chosen by GIMCD()
 min(res.gimcd$dist[res.gimcd$outind])
 
-## ---- eval = TRUE, fig.width = 7, fig.height = 5, results = "hide"------------
+## ----eval = TRUE, fig.width = 7, fig.height = 5, results = "hide"-------------
 # QQ-plot of MD vs. F-distribution
 PlotMD(res.gimcd$dist, ncol(sepe_transformed))
 
-## ---- eval = TRUE-------------------------------------------------------------
+## ----eval = TRUE--------------------------------------------------------------
 # find outliers with cutpoint 70
 outind <- ifelse(res.gimcd$dist > 24, TRUE, FALSE)
 
@@ -152,25 +152,25 @@ outind[is.na(outind)] <- FALSE
 # how many outliers are there?
 sum(outind)
 
-## ---- eval = TRUE, fig.width = 7, fig.height = 5------------------------------
+## ----eval = TRUE, fig.width = 7, fig.height = 5-------------------------------
 # create transformed data including zeros
 df <- log(sepe[, sepevar8] + 1)
 
 # run the EAdet() algorithm
 res.eadet <- EAdet(df, sepe$weight)
 
-## ---- eval = TRUE-------------------------------------------------------------
+## ----eval = TRUE--------------------------------------------------------------
 # how many outliers?
 sum(res.eadet$outind, na.rm = TRUE)
 
-## ---- eval = TRUE-------------------------------------------------------------
+## ----eval = TRUE--------------------------------------------------------------
 # determine outliers based on new cutpoint
 outind <- res.eadet$infection.time >= 5
 
 # how many outliers are there?
 sum(outind, na.rm = TRUE)
 
-## ---- eval = TRUE-------------------------------------------------------------
+## ----eval = TRUE--------------------------------------------------------------
 # determine outliers based on new cutpoint
 res.eaimp <- EAimp(df, sepe$weight, outind = res.eadet$outind, 
                    duration = res.eadet$duration)
